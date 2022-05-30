@@ -1,0 +1,6 @@
+<p>user id = {{userid}}</p>
+<p>user = {{user.toStr()}}</p>
+<a mat-button routerLink="../{{ userid - 1 }}">predchádzajúci</a>
+<a mat-button routerLink="../{{ userid + 1 }}">ďalší</a>
+<br><br>
+<app-user-edit-child [user]="user" (saved)="userSaved($event)"></app-user-edit-child>

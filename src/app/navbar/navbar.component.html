@@ -1,0 +1,34 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button aria-label="Menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Filmy</span>
+    <span><a mat-button routerLink="/users" routerLinkActive="mat-accent">Používatelia</a></span>
+    <span><a mat-button routerLink="/extended-users" 
+      routerLinkActive="mat-accent">Rozšírení používatelia</a></span>
+    <span><a mat-button routerLink="/groups" 
+        routerLinkActive="mat-accent">Skupiny</a></span>
+    <span><a mat-button routerLink="/films" 
+          routerLinkActive="mat-accent">Filmy</a></span>
+    <span class="spacer"></span>
+    
+    <div *ngIf="username; then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
+        {{username}}
+        <button type="button" mat-button (click)="logout()">
+          <mat-icon>logout</mat-icon> Logout
+        </button>
+      </ng-template>
+    <ng-template #elseBlock>
+      <a mat-button routerLink="/register" routerLinkActive="mat-accent" 
+          aria-label="Register new user button">
+        <mat-icon>person_add</mat-icon> Registrujte sa
+      </a>
+      <a mat-button routerLink="/login" routerLinkActive="mat-accent" 
+          aria-label="Login button">
+        <mat-icon>login</mat-icon> Login
+      </a>
+   </ng-template>
+
+
+</mat-toolbar>

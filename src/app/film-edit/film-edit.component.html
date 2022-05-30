@@ -1,0 +1,5 @@
+<p>film id = {{filmId}}</p>
+<a mat-button routerLink="../{{ filmId - 1 }}">predchádzajúci</a>
+<a mat-button routerLink="../{{ filmId + 1 }}">ďalší</a>
+<br><br>
+<app-film-edit-child [film]="film" (saved)="filmSaved($event)"></app-film-edit-child>

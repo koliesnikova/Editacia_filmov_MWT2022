@@ -1,0 +1,42 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="editForm">
+    <mat-card class="login-card">
+        <mat-card-header>
+            <mat-card-header>
+                <mat-card-title>{{title}}</mat-card-title>
+            </mat-card-header>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field appearance="fill">
+                <mat-label>Nazov</mat-label>
+                <input matInput type="text" formControlName="nazov">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Slovenský názov
+                </mat-label>
+                <input matInput type="text" formControlName="Slovenský názov">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Rok</mat-label>
+                <input matInput type="text" formControlName="Rok">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Rok</mat-label>
+                <input matInput type="text" formControlName="afi1998">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Rok</mat-label>
+                <input matInput type="text" formControlName="afi1998">
+            </mat-form-field>
+
+
+
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit" [disabled]="editForm.invalid">Uložiť</button>
+        </mat-card-actions>
+    </mat-card>
+</form>
