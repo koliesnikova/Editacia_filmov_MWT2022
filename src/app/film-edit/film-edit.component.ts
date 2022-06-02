@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { empty, map, mergeMap, Observable } from 'rxjs';
+import { map, mergeMap, Observable } from 'rxjs';
 import { Film } from 'src/entities/film';
 import { CanDeactivateComponent } from 'src/guards/can-deactivate.guard';
 
