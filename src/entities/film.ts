@@ -10,7 +10,7 @@ export class Film {
         public imdbID: string,
         public reziser: Clovek[],
         public postava: Postava[],
-        public poradieVRebricku: { [nazovRebricka: string]: number }
+        public poradieVRebricku?: { [nazovRebricka: string]: number }
     ) { }
     /**
  * clone

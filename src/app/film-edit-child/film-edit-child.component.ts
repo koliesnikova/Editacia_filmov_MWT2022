@@ -11,80 +11,105 @@ import { FilmsService } from 'src/modules/films/films.service';
   styleUrls: ['./film-edit-child.component.css']
 })
 export class FilmEditChildComponent implements OnChanges {
-  @Input() film: Film | undefined;
+  @Input() film: any;
   @Output() saved = new EventEmitter<Film>();
+  hide = true;
   editForm = new FormGroup({
     filmName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    Rok: new FormControl('', [
-      Validators.required,
-      Validators.minLength(4),
-      Validators.maxLength(4),
-      Validators.pattern('\\d+')
+    rok: new FormControl('', [
+      // Validators.required,
+      //Validators.minLength(4),
+      //Validators.maxLength(4),
+      //Validators.pattern('\\d+')
     ]),
     afi1998: new FormControl('', [
-      Validators.required,
-      Validators.minLength(4),
-      Validators.maxLength(4),
-      Validators.pattern('\\d+')
+
+
+      // Validators.maxLength(3)
     ]),
     afi2007: new FormControl('', [
-      Validators.required,
-      Validators.minLength(4),
-      Validators.maxLength(4),
-      Validators.pattern('\\d+')
+
+
+      // Validators.maxLength(4)
     ]),
 
     slovakName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(4)
+      // Validators.required,
+      // Validators.minLength(4)
     ])
   });
   title = '';
 
   constructor(private filmService: FilmsService) { }
 
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (this.film) {
+  //     this.title = this.film.id ? "Editácia filmu" : "Pridávanie filmu";
+  //     console.log(this.film.id)
+
+  //     this.filmName.setValue("anime");
+  //     //this.slovakName.setValue(this.slovakName);
+  //     //this.rok.setValue(this.rok);
+  //     //this.afi1998.setValue(this.afi1998);
+  //     //this.afi2007.setValue(this.afi2007);
+  //     console.log('Input:', this.film);
+  //   }
+  // }
+
+
+  // onSubmit() {
+  //   const clovek: Clovek[] = [];
+  //   const postava: Postava[] = [];
+  //   const poradie: any = {}
+  //   const filmToSave = new Film(
+
+  //     this.filmName.value,
+  //     this.rok.value,
+  //     this.slovakName.value,
+  //     this.afi1998.value,
+  //     this.afi2007.value,
+  //     clovek,
+  //     postava,
+  //     poradie
+  //   );
+
+  //   this.filmService.saveFilm(filmToSave).subscribe(savedFilm => {
+  //     this.saved.emit(savedFilm);
+  //   });
+  // }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.film) {
-      this.title = this.film.id ? "Editácia používateľa" : "Pridávanie používateľa";
       this.filmName.setValue(this.film.nazov);
-      this.slovakName.setValue(this.slovakName);
-      this.Rok.setValue(this.Rok);
-      this.afi1998.setValue(this.afi1998);
-      this.afi2007.setValue(this.afi2007);
-
+      this.rok.setValue(this.film.rok);
+      this.slovakName.setValue(this.film.slovenskyNazov);
+      // this.afi1998.setValue(this.afi1998)
+      //this.afi2007.setValue(this.afi2007)
+      console.log('ZADANY', this.film);
     }
   }
 
+  onSubmit(): void {
+    const film: Film = {
+      ...this.film,
+      nazov: this.filmName.value,
+      slovenskyNazov: this.slovakName.value,
+      rok: this.rok.value,
+      afi1998: this.afi1998,
 
-  onSubmit() {
-    const clovek: Clovek[] = [];
-    const postava: Postava[] = [];
-    const poradie: any = {}
-    const filmToSave = new Film(
+    };
 
-      this.filmName.value,
-      this.Rok.value,
-      this.slovakName.value,
-      this.afi1998.value,
-      this.afi2007.value,
-      clovek,
-      postava,
-      poradie
-    );
-    this.filmService.saveFilm(filmToSave).subscribe(savedFilm => {
-      this.saved.emit(savedFilm);
-    });
+    this.saved.emit(film);
   }
 
   get filmName(): FormControl {
-    return this.editForm.get('name') as FormControl;
+    return this.editForm.get('filmName') as FormControl;
   }
   get slovakName(): FormControl {
     return this.editForm.get('slovakName') as FormControl;
   }
 
-  get Rok(): FormControl {
-    return this.editForm.get('Rok') as FormControl;
+  get rok(): FormControl {
+    return this.editForm.get('rok') as FormControl;
   }
 
   get afi1998(): FormControl {

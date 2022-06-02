@@ -12,32 +12,44 @@ import { UserEditComponent } from './user-edit/user-edit.component';
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
-  { path: 'groups',
+  {
+    path: 'groups',
     loadChildren: () => import('../modules/groups/groups.module').then(
       mod => mod.GroupsModule
     ),
     canLoad: [AuthGuard]
   },
-  { path: 'films',
+  {
+    path: 'films',
     loadChildren: () => import('../modules/films/films.module').then(
-    mod => mod.FilmsModule
+      mod => mod.FilmsModule
     ),
     data: { preload: false }
   },
   { path: 'users', component: UsersComponent },
-  { path: 'extended-users', component: ExtendedUsersComponent,
-    canActivate: [AuthGuard] 
+  {
+    path: 'extended-users', component: ExtendedUsersComponent,
+    canActivate: [AuthGuard]
   },
-  { path: 'users/edit/:id', component: UserEditComponent,
+  {
+    path: 'users/edit/:id', component: UserEditComponent,
     canActivate: [AuthGuard],
     canDeactivate: [CanDeactivateGuard]
   },
-  { path: 'users/add', component: UserAddComponent,
-    canActivate: [AuthGuard] 
+  {
+    path: 'users/add', component: UserAddComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'users/edit/:id', component: UserEditComponent,
+    canActivate: [AuthGuard],
+    canDeactivate: [CanDeactivateGuard]
   },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent,
-    canDeactivate: [CanDeactivateGuard] },
+  {
+    path: 'register', component: RegisterComponent,
+    canDeactivate: [CanDeactivateGuard]
+  },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: P404Component }
 ];

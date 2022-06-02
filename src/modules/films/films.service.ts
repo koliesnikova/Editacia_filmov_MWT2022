@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, tap } from 'rxjs';
+import { catchError, EMPTY, map, Observable, tap } from 'rxjs';
 import { FilmsResponse } from 'src/entities/films-response';
 import { UsersService } from 'src/services/users.service';
 import { environment } from '../../environments/environment';
@@ -12,8 +12,8 @@ import { Film } from 'src/entities/film';
 })
 export class FilmsService {
 
-  url = environment.restServer + 'films/';
-
+  private url = environment.restServer + 'films/';
+  //url = 'http://localhost:8080/films';
   constructor(private http: HttpClient, private usersService: UsersService, private messageService: SnackbarService) { }
 
   get token(): string | null {
@@ -21,32 +21,33 @@ export class FilmsService {
   }
 
   public deleteFilm(filmId: number): Observable<void> {
-    return this.http.delete<void>(this.url + 'films/' + filmId + '/' + this.token).pipe(
+    return this.http.delete<void>(this.url + filmId + '/' + this.token).pipe(
       tap(() => {
         this.messageService.successMessage("Film úspešne vymazaný");
-      })
+      }),
+      catchError(error => this.processHttpError(error))
 
     );
   }
 
   public saveFilm(film: Film): Observable<Film> {
-    return this.http.post<Film>(this.url + "films/" + this.token, film).pipe(
+    return this.http.post<Film>(this.url + this.token, film).pipe(
       map(jsonFilm => Film.clone(jsonFilm)),
       tap(film => this.messageService
-        .successMessage("Používateľ " + film.nazov + " úspešne uložený"))
+        .successMessage("Používateľ " + film.nazov + " úspešne uložený")),
+      catchError(error => this.processHttpError(error))
     );
   }
 
   public getFilmById(id: number): Observable<Film> {
-    return this.http.get<Film>(this.url + 'films/' + id + '/' + this.token).pipe(
-      map(jsonFilm => Film.clone(jsonFilm))
+    return this.http.get<Film>(this.url + id + '/' + this.token).pipe(
+      map(jsonFilm => Film.clone(jsonFilm)),
+      catchError(error => this.processHttpError(error))
     );
   }
 
 
-  processHttpError(error: any): any {
-    throw new Error('Method not implemented.');
-  }
+
 
   getHeader(): {
     headers?: { "X-Auth-Token": string },
@@ -58,6 +59,28 @@ export class FilmsService {
       }
     }
       : undefined;
+  }
+
+  public processHttpError(error: any): Observable<never> {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 0) {
+        this.messageService.errorMessage("Server je nedostupný");
+      } else {
+        if (error.status >= 400 && error.status < 500) {
+          const message = error.error.errorMessage || JSON.parse(error.error).errorMessage;
+
+        } else {
+          if (error.status >= 500) {
+            this.messageService.errorMessage("Server má problém, kontaktujte administrátora");
+            console.error("Server error", error);
+          }
+        }
+      }
+    } else {
+      this.messageService.errorMessage("Oprav si klienta, programátor");
+      console.error("Server error", error);
+    }
+    return EMPTY;
   }
 
   getFilms(indexFrom?: number,

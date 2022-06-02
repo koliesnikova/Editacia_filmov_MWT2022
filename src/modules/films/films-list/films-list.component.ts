@@ -36,7 +36,7 @@ export class FilmsListComponent implements OnInit, AfterViewInit {
     if (this.filmsService.token) {
       this.columnsToDisplay = ['id', 'nazov', 'slovenskyNazov', 'rok', 'afi1998', 'afi2007', 'actions'];
     }
-    //   this.filmsDataSour = new FilmsDataSource(this.filmsService);
+    this.filmsDataSource = new FilmsDataSource(this.filmsService);
 
   }
 
@@ -60,11 +60,11 @@ export class FilmsListComponent implements OnInit, AfterViewInit {
   deleteFilm(film: Film) {
     this.dialogService.confirm("Mazanie filmu", "Naozaj chcete zmazať filma " + film.nazov + "?").subscribe(result => {
       if (result && film.id) {
-        //  this.filmsService.deleteFilm(film.id).subscribe(() => {
-        //  this.filmsDataSource.data = this.filmsDataSource.data.filter(
-        //   u => u.id !== film.id
-        //   )
-        //  });
+        this.filmsService.deleteFilm(film.id).subscribe(() => {
+          this.filmsDataSource.data = this.filmsDataSource.data.filter(
+            (f: Film) => f.id !== film.id
+          )
+        });
       }
     })
   }
@@ -84,6 +84,7 @@ class FilmsDataSource implements DataSource<Film> {
   filterString: string | undefined;
   sortColumn: string | undefined;
   descending: boolean | undefined;
+  data: any;
 
 
   constructor(private filmsService: FilmsService) { }

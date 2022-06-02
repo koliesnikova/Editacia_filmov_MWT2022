@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, mergeMap, Observable } from 'rxjs';
+import { empty, map, mergeMap, Observable } from 'rxjs';
 import { Film } from 'src/entities/film';
 import { CanDeactivateComponent } from 'src/guards/can-deactivate.guard';
 
@@ -14,7 +14,7 @@ import { FilmsService } from 'src/modules/films/films.service';
 export class FilmEditComponent implements OnInit, CanDeactivateComponent {
 
   filmId = 0;
-  film: Film = new Film(1, '', '', 5, '', [], [], {});
+  film: Film = new Film(1, '', '', 4, '', [], [], {});
   saved = false;
 
   constructor(private route: ActivatedRoute,
