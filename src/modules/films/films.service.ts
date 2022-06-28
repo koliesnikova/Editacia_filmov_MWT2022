@@ -21,7 +21,8 @@ export class FilmsService {
   }
 
   public deleteFilm(filmId: number): Observable<void> {
-    return this.http.delete<void>(this.url + filmId + '/' + this.token).pipe(
+    let httpOptions = this.getHeader();
+    return this.http.delete<void>(this.url + filmId, httpOptions).pipe(
       tap(() => {
         this.messageService.successMessage("Film úspešne vymazaný");
       }),
@@ -31,23 +32,23 @@ export class FilmsService {
   }
 
   public saveFilm(film: Film): Observable<Film> {
-    return this.http.post<Film>(this.url + this.token, film).pipe(
+    let httpOptions = this.getHeader();
+    console.log(film)
+    return this.http.post<Film>(this.url, film, httpOptions).pipe(
       map(jsonFilm => Film.clone(jsonFilm)),
       tap(film => this.messageService
-        .successMessage("Používateľ " + film.nazov + " úspešne uložený")),
+        .successMessage("Film " + film.nazov + " úspešne uložený")),
       catchError(error => this.processHttpError(error))
     );
   }
 
   public getFilmById(id: number): Observable<Film> {
-    return this.http.get<Film>(this.url + id + '/' + this.token).pipe(
+    let httpOptions = this.getHeader();
+    return this.http.get<Film>(this.url + id, httpOptions).pipe(
       map(jsonFilm => Film.clone(jsonFilm)),
       catchError(error => this.processHttpError(error))
     );
   }
-
-
-
 
   getHeader(): {
     headers?: { "X-Auth-Token": string },
@@ -61,27 +62,7 @@ export class FilmsService {
       : undefined;
   }
 
-  public processHttpError(error: any): Observable<never> {
-    if (error instanceof HttpErrorResponse) {
-      if (error.status === 0) {
-        this.messageService.errorMessage("Server je nedostupný");
-      } else {
-        if (error.status >= 400 && error.status < 500) {
-          const message = error.error.errorMessage || JSON.parse(error.error).errorMessage;
 
-        } else {
-          if (error.status >= 500) {
-            this.messageService.errorMessage("Server má problém, kontaktujte administrátora");
-            console.error("Server error", error);
-          }
-        }
-      }
-    } else {
-      this.messageService.errorMessage("Oprav si klienta, programátor");
-      console.error("Server error", error);
-    }
-    return EMPTY;
-  }
 
   getFilms(indexFrom?: number,
     indexTo?: number,
@@ -110,5 +91,28 @@ export class FilmsService {
     return this.http.get<FilmsResponse>(this.url, httpOptions).pipe(
       catchError(error => this.usersService.processHttpError(error))
     );
+  }
+
+  public processHttpError(error: any): Observable<never> {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 0) {
+        this.messageService.errorMessage("Server je nedostupný");
+      } else {
+        if (error.status >= 400 && error.status < 500) {
+          const message = error.error.errorMessage || JSON.parse(error.error).errorMessage;
+          this.messageService.errorMessage(message);
+          console.error("Server error", error);
+        } else {
+          if (error.status >= 500) {
+            this.messageService.errorMessage("Server má problém, kontaktujte administrátora");
+            console.error("Server error", error);
+          }
+        }
+      }
+    } else {
+      this.messageService.errorMessage("Oprav si klienta, programátor");
+      console.error("Server error", error);
+    }
+    return EMPTY;
   }
 }

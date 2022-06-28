@@ -1,6 +1,5 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="editForm">
     <mat-card class="login-card">
-
         <mat-card-header>
             <mat-card-title>{{title}}</mat-card-title>
         </mat-card-header>
@@ -8,7 +7,7 @@
         <mat-card-content>
             <mat-form-field appearance="fill">
                 <mat-label>Nazov</mat-label>
-                <input matInput type="text" formControlName="filmName">
+                <input matInput type="text" formControlName="name">
             </mat-form-field>
 
             <mat-form-field appearance="fill">
@@ -32,11 +31,9 @@
                 <input matInput type="text" formControlName="afi2007">
             </mat-form-field>
 
-
-
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary" type="submit" [disabled]="editForm?.invalid">Uložiť</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="editForm.invalid">Uložiť</button>
         </mat-card-actions>
 
     </mat-card>

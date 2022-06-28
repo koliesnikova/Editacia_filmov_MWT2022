@@ -3,13 +3,13 @@ import { Postava } from "./postava";
 
 export class Film {
     constructor(
-        public id: number,
+        public id: number | null,
         public nazov: string,
-        public slovenskyNazov: string,
-        public rok: number,
-        public imdbID: string,
-        public reziser: Clovek[],
-        public postava: Postava[],
+        public slovenskyNazov?: string,
+        public rok?: number,
+        public imdbID?: string,
+        public reziser: Clovek[] = [],
+        public postava: Postava[] = [],
         public poradieVRebricku?: { [nazovRebricka: string]: number }
     ) { }
     /**
@@ -23,6 +23,10 @@ export class Film {
         )
 
 
+    }
+
+    public toStr() {
+        return this.nazov + ' ' + this.slovenskyNazov;
     }
 }
 

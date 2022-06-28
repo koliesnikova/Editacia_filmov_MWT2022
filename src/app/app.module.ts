@@ -21,6 +21,7 @@ import { UserAddComponent } from './user-add/user-add.component';
 import { GroupsModule } from 'src/modules/groups/groups.module';
 import { FilmEditChildComponent } from './film-edit-child/film-edit-child.component';
 import { FilmEditComponent } from './film-edit/film-edit.component';
+import { FilmAddComponent } from './film-add/film-add.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { FilmEditComponent } from './film-edit/film-edit.component';
     UserAddComponent,
     FilmEditChildComponent,
     FilmEditComponent,
+    FilmAddComponent,
 
   ],
   imports: [

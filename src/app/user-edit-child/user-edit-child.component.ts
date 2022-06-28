@@ -17,12 +17,12 @@ export class UserEditChildComponent implements OnChanges {
 
   hide = true;
   editForm = new FormGroup({
-    name: new FormControl('', 
-                          [Validators.required, Validators.minLength(3)],
-                          this.serverConflictValidator('name')),
-    email: new FormControl('', 
-                           [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}$")],
-                           this.serverConflictValidator('email')),
+    name: new FormControl('',
+      [Validators.required, Validators.minLength(3)],
+      this.serverConflictValidator('name')),
+    email: new FormControl('',
+      [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}$")],
+      this.serverConflictValidator('email')),
     password: new FormControl(''),
     active: new FormControl(true),
     groups: new FormArray([])
@@ -34,14 +34,14 @@ export class UserEditChildComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.user) {
-      this.title = this.user.id ? "Editácia používateľa": "Pridávanie používateľa";
+      this.title = this.user.id ? "Editácia používateľa" : "Pridávanie používateľa";
       this.name.setValue(this.user.name);
       this.email.setValue(this.user.email);
       this.active.setValue(this.user.active);
       this.usersService.getGroups().subscribe(groups => {
         this.groups.clear();
         this.allGroups = groups;
-        for(let group of groups) {
+        for (let group of groups) {
           if (this.user?.groups.some(ug => group.id === ug.id)) {
             this.groups.push(new FormControl(true));
           } else {
@@ -49,12 +49,13 @@ export class UserEditChildComponent implements OnChanges {
           }
         }
       })
+      console.log('Input:', this.user);
     }
   }
 
   onSubmit() {
     const pass = (this.password.value as string).trim();
-    const groups : Group[] = [];
+    const groups: Group[] = [];
     for (let i = 0; i < this.allGroups.length; i++) {
       if (this.groups.at(i).value) {
         groups.push(this.allGroups[i]);
@@ -89,8 +90,8 @@ export class UserEditChildComponent implements OnChanges {
   get groups(): FormArray {
     return this.editForm.get('groups') as FormArray;
   }
-  
-  stringify(error:any): string {
+
+  stringify(error: any): string {
     return JSON.stringify(error);
   }
 
@@ -101,7 +102,7 @@ export class UserEditChildComponent implements OnChanges {
       const email = field === 'email' ? control.value : '';
       const user = new User(name, email, this.user?.id);
       return this.usersService.userConflicts(user).pipe(
-        map( conflictsArray => conflictsArray.includes(field) ? {
+        map(conflictsArray => conflictsArray.includes(field) ? {
           conflict: 'Táto hodnota sa už na serveri nachádza'
         } : null)
       )

@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { CanDeactivateGuard } from 'src/guards/can-deactivate.guard';
 import { SelectingPreloadingService } from 'src/services/selecting-preloading.service';
 import { ExtendedUsersComponent } from './extended-users/extended-users.component';
+import { FilmAddComponent } from './film-add/film-add.component';
 import { LoginComponent } from './login/login.component';
 import { P404Component } from './p404/p404.component';
 import { RegisterComponent } from './register/register.component';
@@ -38,6 +39,10 @@ const routes: Routes = [
   },
   {
     path: 'users/add', component: UserAddComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'films/add', component: FilmAddComponent,
     canActivate: [AuthGuard]
   },
   {

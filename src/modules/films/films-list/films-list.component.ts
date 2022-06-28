@@ -28,7 +28,7 @@ export class FilmsListComponent implements OnInit, AfterViewInit {
   filter$ = new Subject<string>();
 
 
-  constructor(private filmsService: FilmsService, private messageService: SnackbarService, private http: HttpClient, private dialogService: DialogService) {
+  constructor(private filmsService: FilmsService, private http: HttpClient, private dialogService: DialogService) {
     this.filmsDataSource = new FilmsDataSource(filmsService);
   }
 
@@ -58,15 +58,19 @@ export class FilmsListComponent implements OnInit, AfterViewInit {
   }
 
   deleteFilm(film: Film) {
+
     this.dialogService.confirm("Mazanie filmu", "Naozaj chcete zmazať filma " + film.nazov + "?").subscribe(result => {
       if (result && film.id) {
         this.filmsService.deleteFilm(film.id).subscribe(() => {
           this.filmsDataSource.data = this.filmsDataSource.data.filter(
-            (f: Film) => f.id !== film.id
+            (f: Film) => f.id !== film.id,
+
           )
         });
       }
+      window.location.reload();
     })
+
   }
 
   filter(event: any) {
@@ -85,9 +89,14 @@ class FilmsDataSource implements DataSource<Film> {
   sortColumn: string | undefined;
   descending: boolean | undefined;
   data: any;
-
+  addingFilm = false;
 
   constructor(private filmsService: FilmsService) { }
+
+  addNewFilm(): void {
+    this.addingFilm = true;
+  }
+
 
   goToFirstPage() {
     if (this.paginator) {
