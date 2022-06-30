@@ -19,9 +19,9 @@ import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserEditChildComponent } from './user-edit-child/user-edit-child.component';
 import { UserAddComponent } from './user-add/user-add.component';
 import { GroupsModule } from 'src/modules/groups/groups.module';
-import { FilmEditChildComponent } from './film-edit-child/film-edit-child.component';
-import { FilmEditComponent } from './film-edit/film-edit.component';
-import { FilmAddComponent } from './film-add/film-add.component';
+import { FilmEditChildComponent } from '../modules/films/film-edit-child/film-edit-child.component';
+import { FilmEditComponent } from '../modules/films/film-edit/film-edit.component';
+import { FilmAddComponent } from '../modules/films/film-add/film-add.component';
 
 
 @NgModule({

@@ -31,6 +31,8 @@ export class FilmsService {
     );
   }
 
+
+
   public saveFilm(film: Film): Observable<Film> {
     let httpOptions = this.getHeader();
     console.log(film)
@@ -49,6 +51,8 @@ export class FilmsService {
       catchError(error => this.processHttpError(error))
     );
   }
+
+
 
   getHeader(): {
     headers?: { "X-Auth-Token": string },
