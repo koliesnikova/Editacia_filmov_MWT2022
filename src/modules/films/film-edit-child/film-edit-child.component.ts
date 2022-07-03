@@ -11,6 +11,8 @@ import { FilmsService } from 'src/modules/films/films.service';
 export class FilmEditChildComponent implements OnChanges {
   @Input() film: Film | undefined;
   @Output() saved = new EventEmitter<Film>();
+
+
   hide = true;
   editForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -73,11 +75,9 @@ export class FilmEditChildComponent implements OnChanges {
             : undefined
           : undefined
       );
-
       console.log('Input:', this.film);
     }
   }
-
 
   onSubmit() {
     const filmToSave = new Film(
@@ -91,21 +91,9 @@ export class FilmEditChildComponent implements OnChanges {
       "AFI 1998": this.afi1998.value,
       "AFI 2007": this.afi2007.value
     }
-
-
     );
-
     this.filmService.saveFilm(filmToSave).subscribe(savedFilm => {
       this.saved.emit(savedFilm);
     });
   }
-
-
-
-
-
-
-
-
-
 }
