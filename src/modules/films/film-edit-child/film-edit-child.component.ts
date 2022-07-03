@@ -64,16 +64,10 @@ export class FilmEditChildComponent implements OnChanges {
       this.slovakName.setValue(this.film.slovenskyNazov);
       this.rok.setValue(this.film.rok);
       this.afi1998.setValue(
-        this.film.poradieVRebricku ? ["AFI 1998"] ? this.film.poradieVRebricku["AFI 1998"]
-          : undefined
-          : undefined
+        this.film.poradieVRebricku ? ["AFI 1998"] ? this.film.poradieVRebricku["AFI 1998"] : undefined : undefined
       );
       this.afi2007.setValue(
-        this.film.poradieVRebricku
-          ? ["AFI 2007"]
-            ? this.film.poradieVRebricku["AFI 2007"]
-            : undefined
-          : undefined
+        this.film.poradieVRebricku ? ["AFI 2007"] ? this.film.poradieVRebricku["AFI 2007"] : undefined : undefined
       );
       console.log('Input:', this.film);
     }
